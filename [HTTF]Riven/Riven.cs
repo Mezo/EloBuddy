@@ -241,68 +241,65 @@ namespace HTTF_Riven_v2
             if (!R.IsReady()) return;
 
 
-                if (etarget.IsValidTarget(600))
-                if (!E.IsReady() || !Flash.IsReady() || !R.IsReady());
-            if (TargetSelector.SelectedTarget.IsValid);
-            {
+            if (etarget.IsValidTarget(600)) //not even sure this does anything?
+                                            //if (!E.IsReady() || !Flash.IsReady() || !R.IsReady()); this is pointless ? it does nothing.
+            if (TargetSelector.SelectedTarget.IsValid)
+                {
                     {
-                      
+                        if (E.IsReady())
+                        {
+                            Player.CastSpell(SpellSlot.E, FocusTarget.Position);
+                        }
 
-                                if (E.IsReady())
-                                {
-                                    Player.CastSpell(SpellSlot.E, FocusTarget.Position);
-                                }
+                        if (R.IsReady() && !CheckUlt())
+                        {
+                            R.Cast();
+                        }
 
-                                if (R.IsReady() && !CheckUlt())
-                                {
-                                    R.Cast();
-                                }
+                        if (Flash.IsReady())
+                        {
+                            Flash.Cast(FocusTarget.Position);
+                        }
 
-                                if (Flash.IsReady())
-                                {
-                                    Flash.Cast(FocusTarget.Position);
-                                }
+                        if (FocusTarget.IsValidTarget(Hydra.Range))
+                        {
+                            if (HasTiamat())
+                            {
+                                Tiamat.Cast();
+                            }
 
-                                if (FocusTarget.IsValidTarget(Hydra.Range))
-                                {
-                                    if (HasTiamat())
-                                    {
-                                        Tiamat.Cast();
-                                    }
+                            if (HasHydra())
+                            {
+                                Hydra.Cast();
+                            }
+                        }
 
-                                    if (HasHydra())
-                                    {
-                                        Hydra.Cast();
-                                    }
-                                }
+                        if (W.IsReady())
+                        {
+                            if (FocusTarget.IsValidTarget(W.Range))
+                            {
+                                W.Cast();
+                            }
+                        }
 
-                                if (W.IsReady())
-                                {
-                                    if (FocusTarget.IsValidTarget(W.Range))
-                                    {
-                                        W.Cast();
-                                    }
-                                }
-                                if (Q.IsReady())
-                                {
-                                    if (FocusTarget.IsValidTarget(Q.Range))
-                                    {
-                                        Q.Cast();
-                                    }
-                                }
+                        if (Q.IsReady())
+                        {
+                            if (FocusTarget.IsValidTarget(Q.Range))
+                            {
+                                Q.Cast();
+                            }
+                        }
 
-                                if (R2.IsReady())
-                                {
-                                    if (FocusTarget.IsValidTarget(R2.Range))
-                                    {
-                                        R2.Cast();
-                                    }
-                                }
-
-
+                        if (R2.IsReady())
+                        {
+                            if (FocusTarget.IsValidTarget(R2.Range))
+                            {
+                                R2.Cast();
+                            }
                         }
                     }
                 }
+        }
             
         
 
@@ -749,7 +746,7 @@ namespace HTTF_Riven_v2
 
             if (Target != null)
             {
-                if (Player.Instance.CountEnemiesInRange(Hydra.Range) > 0)
+                if (Player.Instance.CountEnemyChampionsInRange(Hydra.Range) > 0)
                 {
                     if (HasHydra())
                     {
@@ -1425,15 +1422,10 @@ namespace HTTF_Riven_v2
             if (!sender.IsMe) return;
             var target = args.Target as Obj_AI_Base;
 
-            {
-                Orbwalker.ResetAutoAttack();
-                return;
-            }
-
             if (args.SData.Name.ToLower().Contains("itemtiamatcleave"))
             {
                 Orbwalker.ResetAutoAttack();
-                if (Riven.W.IsReady())
+                if (W.IsReady())
                 {
                     var target2 = TargetSelector.GetTarget(Riven.W.Range, DamageType.Physical);
                     if (target2 != null || Orbwalker.ActiveModesFlags != Orbwalker.ActiveModes.None)
